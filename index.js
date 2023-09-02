@@ -1,4 +1,4 @@
-let AppsScriptLink = "https://script.google.com/macros/s/AKfycbzbkG82S6QIHUAnPxVSLJ9h0NP1ydkN5CNBYQlI1RCBf3SDU8sY5nGSPuhRAeNFabRatw/exec";
+let AppsScriptLink = "https://script.google.com/macros/s/AKfycbyTd9k0CkH8C64rn4eV47wfjeKK0ztfYTqKTbzLdG7qvW_yJpsf_k3XbHSQECG_6pxtEw/exec";
 const namHienTai = 2023;
 function BtnAdd() {
     var v = $("#TRow").clone().appendTo("#TBody");
@@ -15,6 +15,13 @@ function BtnDel(v) {
         }
 
     );
+}
+
+function MaxInv() {
+    $.getJSON(AppsScriptLink + "?page=max",
+        function (data) {
+            $("input[name='ma_so']").val(data);
+        });
 }
 
 function updateNguoiSanh(input) {
@@ -101,6 +108,126 @@ $(document).ready(function () {
         $('#ma_so').val(maSo);
         Search(maSo);
     }
+
+    // Dữ liệu cho các select, bạn có thể thay thế bằng dữ liệu thực tế từ nguồn dữ liệu của bạn
+    var dc1Data = ["Cần Đước", "Cần Giuộc", "Bình Chánh", "TP.HCM", "Tiền Giang", "Khác"];
+    var dc2Data = {
+        "Cần Đước": ["TT.Cần Đước", "Xã Tân Lân", "Xã Tân Ân", "Xã Tân Chánh", "Xã Mỹ Lệ", "Xã Phước Tuy", "Xã Phước Đông", "Xã Phước Vân", "Xã Tân Trạch", "Xã Long Hựu Đông", "Xã Long Hựu Tây", "Xã Long Sơn", "Xã Long Cang", "Xã Long Hòa", "Xã Long Định", "Xã Long Khê", "Xã Long Trạch"],
+        "Cần Giuộc": [],
+        "Bình Chánh": [],
+        "Tiền Giang": [],
+        "TP.HCM": [], // Không có tùy chọn cho TPHCM
+        "Khác": []
+    };
+    var dc3Data = {
+        "TT.Cần Đước": ["Khu 1B", "Khu 1A", "Khu 1C", "Khu 2", "Khu 3", "Khu 4", "Khu 5", "Khu 6", "Khu 7A", "Khu 7B", "Khu 8"],
+        "Xã Tân Lân": ["Khác", "Ấp Xóm Chùa", "Ấp Bà Chủ", "Ấp Nhà Thờ", "Ấp Xóm Mới", "Ấp Nhà Dài", "Ấp Ao Gòn", "Ấp Nhà Trường", "Ấp Cầu Xây", "Ấp Bình Hòa", "Ấp Bà Thoại", "Ấp Rạch Bộng"],
+        "Xã Phước Tuy": ["Khác", "Ấp 1", "Ấp 2", "Ấp 3", "Ấp 4", "Ấp 5", "Ấp 6", "Ấp 7"],
+        "Xã Tân Ân": ["Khác", "Ấp 2A", "Ấp 2B", "Ấp 3", "Ấp 4", "Ấp 5", "Ấp 6", "Ấp 7"],
+        "Xã Phước Đông": ["Khác", "Ấp 1", "Ấp 2", "Ấp 3", "Ấp 4", "Ấp 5", "Ấp 6", "Ấp 7"],
+        "Xã Tân Chánh": ["Khác", "Ấp Đình", " Ấp Lăng", " Ấp Đông Nhất", "Ấp Đông Nhì", "Ấp Đông Trung", "Ấp Hoà Quới", "Ấp Bà Nghĩa"],
+        "Xã Mỹ Lệ": ["Khác", "Ấp Rạch Đào", "Ấp Cầu Chùa", "Ấp Mỹ Tây", "Ấp Vạn Phước", "Ấp Cầu Làng", "Ấp Cầu Tam Binh", "Ấp Long Mỹ", "Ấp Tân Mỹ", "Ấp Cầu Nhỏ", "Ấp Chợ Trạm", "Ấp Chợ Mỹ"],
+        "Xã Phước Vân": [],
+        "Xã Tân Trạch": [],
+        "Xã Long Hựu Đông": [],
+        "Xã Long Hựu Tây": [],
+        "Xã Long Sơn": [],
+        "Xã Long Cang": [],
+        "Xã Long Hòa": [],
+        "Xã Long Định": [],
+        "Xã Long Khê": [],
+        "Xã Long Trạch": [],
+    };
+
+
+    // Lấy các select
+    var dc1Select = document.getElementById("dc_1");
+    var dc2Select = document.getElementById("dc_2");
+    var dc3Select = document.getElementById("dc_3");
+    var dc = document.getElementById("dia_chi");
+
+    dc2Select.style.display = "none";
+    dc3Select.style.display = "none";
+
+    for (let i = 0; i < dc1Data.length; i++) {
+        let option = document.createElement("option");
+        option.text = dc1Data[i];
+        option.value = dc1Data[i];
+        dc1Select.appendChild(option);
+    }
+
+    function dc_new() {
+        let selectedValue = dc1Select.value;
+        for (let i = 0; i < dc2Data[selectedValue].length; i++) {
+            let option = document.createElement("option");
+            option.text = dc2Data[selectedValue][i];
+            option.value = dc2Data[selectedValue][i];
+            dc2Select.appendChild(option);
+        }
+        selectedValue = dc2Select.value;
+        for (let i = 0; i < dc3Data[selectedValue].length; i++) {
+            let option = document.createElement("option");
+            option.text = dc3Data[selectedValue][i];
+            option.value = dc3Data[selectedValue][i];
+            dc3Select.appendChild(option);
+        }
+        dc2Select.style.display = "inline-block";
+        dc3Select.style.display = "inline-block";
+    }
+
+    dc_new();
+
+    // Lắng nghe sự kiện thay đổi của dc_1
+    dc1Select.addEventListener("change", function () {
+        let selectedValue = dc1Select.value;
+        dc2Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_2
+        dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
+
+        // Tạo tùy chọn cho dc_2 dựa trên giá trị dc1Data
+        for (let i = 0; i < dc2Data[selectedValue].length; i++) {
+            let option = document.createElement("option");
+            option.text = dc2Data[selectedValue][i];
+            option.value = dc2Data[selectedValue][i];
+            dc2Select.appendChild(option);
+        }
+        if (selectedValue === "Cần Đước") {
+            dc2Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_2
+            dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
+            dc_new();
+            dc2Select.style.display = "inline-block";
+            dc3Select.style.display = "inline-block";
+            dc.style.display = "none";
+        } else if (selectedValue === "Khác") {
+            dc2Select.style.display = "none";
+            dc3Select.style.display = "none";
+            dc.style.display = "inline-block";
+        } else {
+            dc2Select.style.display = "none";
+            dc3Select.style.display = "none";
+            dc.style.display = "none";
+        }
+
+    });
+
+    // Lắng nghe sự kiện thay đổi của dc_2
+    dc2Select.addEventListener("change", function () {
+        let selectedValue = dc2Select.value;
+        dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
+
+        // Tạo tùy chọn cho dc_3 dựa trên giá trị dc2Data
+        for (let i = 0; i < dc3Data[selectedValue].length; i++) {
+            let option = document.createElement("option");
+            option.text = dc3Data[selectedValue][i];
+            option.value = dc3Data[selectedValue][i];
+            dc3Select.appendChild(option);
+        }
+        if (dc3Select.value === "") {
+            dc3Select.style.display = "none";
+        } else {
+            dc3Select.style.display = "inline-block";
+        }
+    });
+
     $(".form-sao-han").submit(function (event) {
         event.preventDefault();
         var formData = $(this).serialize();
@@ -117,14 +244,6 @@ $(document).ready(function () {
             url: AppsScriptLink,
             data: formData,
             success: function () {
-                spinner.addClass("d-none");
-                submitButton.prop("disabled", false);
-                messageContainer.removeClass("d-none");
-                $("#createNewButton, #printButton").show();
-                alert("Đã lưu thành công!");
-                setTimeout(function () {
-                    messageContainer.addClass("d-none");
-                }, 5000);
                 const urlParams = new URLSearchParams(window.location.search);
                 const maSo = urlParams.get('ma_so');
                 if (maSo) {
@@ -135,7 +254,17 @@ $(document).ready(function () {
                             $('#StartRow').val(StartRow);
                             $('#RowCount').val(RowCount);
                         });
+                } else {
+                    MaxInv();
                 }
+                spinner.addClass("d-none");
+                submitButton.prop("disabled", false);
+                messageContainer.removeClass("d-none");
+                $("#createNewButton, #printButton").show();
+                alert("Đã lưu thành công!");
+                setTimeout(function () {
+                    messageContainer.addClass("d-none");
+                }, 5000);
             },
             error: function () {
                 console.error("Form submission error:", error);
@@ -301,7 +430,6 @@ function generatePDF(listMaSo) {
         // let nguoiDaiDien = "Nguyễn Văn A";
         // let soDienThoai = "0968123456";
         // let diaChi = "Xã Tân Lân, Huyện Cần Đước, Tỉnh Long An";
-        // let year = "2024";
 
         doc.addImage('image/logo.png', 'PNG', doc.internal.pageSize.width - 82, 10, 30, 0);
         doc.addImage('image/logo1.png', 'PNG', doc.internal.pageSize.width - 52, 10, 30, 0);
@@ -474,6 +602,7 @@ function generatePDF(listMaSo) {
             // All requests are completed
             printButton.attr('disabled', false);
             spinner.addClass('d-none');
+            hideLoadingOverlay();
 
             // Tạo blob từ dữ liệu PDF
             var pdfBlob = doc.output('blob');
@@ -521,7 +650,7 @@ function generatePDF(listMaSo) {
                 alert('Không tìm thấy...');
             } else {
                 var data = [];
-                let year = new Date().getFullYear();
+                let year = namHienTai;
                 let nguoiDaiDien;
                 let diaChi;
                 let soDienThoai;
@@ -541,7 +670,7 @@ function generatePDF(listMaSo) {
 
                         rowData.push(value[8]);//Ngươi sanh
 
-                        let tuoi = 2024 - value[7] + 1;//Năm sinh
+                        let tuoi = namHienTai - value[7] + 1;//Năm sinh
                         rowData.push(tuoi);
 
                         let gioiTinh = value[6];//Giới tính

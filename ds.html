@@ -54,6 +54,10 @@
             <input type="text" class="form-control" placeholder="Tìm kiếm" name="tim_kiem">
           </div>
         </div>
+        <div class="col-md-2">
+          <button class="btn btn-sm btn-success mb-1 print-selected"><i class="bi bi-printer"></i> In tất cả đã
+            chọn</button>
+        </div>
       </div>
 
       <div class="table-responsive">
@@ -61,6 +65,7 @@
           <thead class="table-success">
             <tr>
               <th scope="col">Thông tin</th>
+              <th scope="col" style="width: 1%;">Chọn(<span class="selected-count">0</span>)</th>
               <th scope="col" style="width: 8%;">Chức năng</th>
             </tr>
           </thead>
@@ -95,7 +100,12 @@
                   </div>
                 </div>
               </td>
-              <td>
+              <td class="custom-td">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                </div>
+              </td>
+              <td class="custom-td">
                 <a href="" class="btn btn-sm btn-primary mb-1"><i class="bi bi-pencil"></i></a>
                 <button class="btn btn-sm btn-success print-button mb-1" data-ma-so="your_ma_so_here"><i
                     class="bi bi-printer"></i></button>
@@ -134,6 +144,7 @@
     // });
 
     $(document).ready(function () {
+      $(".print-selected").hide();
       showLoadingOverlay();
       $.getJSON(AppsScriptLink, function (data) {
         data.shift();
@@ -150,6 +161,7 @@
           $printButton.attr("data-ma-so", value[0]); // Set the data-ma-so attribute
           $printButton.on("click", function () {
             var maSo = $(this).data('ma-so'); // Lấy giá trị data-ma-so
+            showLoadingOverlay();
             generatePDF([maSo]); // Gọi hàm generatePDF với mã số
           });
           $("#TBody").append($row); // Append the row to the table body
@@ -176,6 +188,43 @@
             $(this).show();
           }
         });
+      });
+
+      // Mảng lưu trữ các hàng đã chọn
+      var selectedRows = [];
+
+      $("#TBody").on("change", ".form-check-input", function () {
+        var maSo = $(this).closest("tr").find(".ma_so").text();
+
+        // Kiểm tra xem nút chọn đã được chọn hay bỏ chọn
+        if ($(this).prop("checked")) {
+          selectedRows.push(maSo);
+        } else {
+          var index = selectedRows.indexOf(maSo);
+          if (index !== -1) {
+            selectedRows.splice(index, 1);
+          }
+        }
+
+        // Cập nhật số lượng đã chọn và hiển thị
+        var selectedCount = selectedRows.length;
+        $(".selected-count").text(selectedCount);
+
+        // Ẩn/hiện nút "In tất cả đã chọn" dựa trên số lượng đã chọn
+        if (selectedCount > 0) {
+          $(".print-selected").show();
+        } else {
+          $(".print-selected").hide();
+        }
+      });
+
+      $(".print-selected").on("click", function () {
+        if (selectedRows.length > 0) {
+          showLoadingOverlay();
+          generatePDF(selectedRows); // Gọi hàm generatePDF với danh sách mã số đã chọn
+        } else {
+          alert("Vui lòng chọn ít nhất một hàng để in.");
+        }
       });
     });
 
