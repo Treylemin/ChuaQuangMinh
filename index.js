@@ -106,16 +106,20 @@ $(document).ready(function () {
 
     function dia_chi_day_du() {
         let dia_chi_day_du = "";
+        let dc_1 = dc1Select.value;
+        if (dc_1 === "Cần Đước") {
+            dc_1 = "Huyện " + dc_1;
+        }
         if (dc3Select.value !== "none" && dc3Select.value !== "Khác") {
-            dia_chi_day_du = dc3Select.value + ", " + dc2Select.value + ", " + dc1Select.value;
+            dia_chi_day_du = dc3Select.value + ", " + dc2Select.value + ", " + dc_1;
             let diaChiInput = document.querySelector('input[name="dia_chi"]');
             diaChiInput.value = dia_chi_day_du;
         } else if (dc2Select.value !== "none" && dc2Select.value !== "Khác") {
-            dia_chi_day_du = dc2Select.value + ", " + dc1Select.value;
+            dia_chi_day_du = dc2Select.value + ", " + dc_1;
             let diaChiInput = document.querySelector('input[name="dia_chi"]');
             diaChiInput.value = dia_chi_day_du;
         } else if (dc1Select.value !== "none" && dc1Select.value !== "Khác") {
-            dia_chi_day_du = dc1Select.value;
+            dia_chi_day_du = dc_1;
             let diaChiInput = document.querySelector('input[name="dia_chi"]');
             diaChiInput.value = dia_chi_day_du;
         }
@@ -738,19 +742,19 @@ function generatePDF(listMaSo) {
                     if (i == 0) {
                         nguoiDaiDien = value[1];
                         diaChi = value[2];
-                        soDienThoai = value[3];
+                        soDienThoai = value[6];
                     } else {
                         var rowData = [];
                         rowData.push(i);
 
-                        rowData.push(value[5]);//Họ và Tên
+                        rowData.push(value[8]);//Họ và Tên
 
-                        rowData.push(value[8]);//Ngươi sanh
+                        rowData.push(value[11]);//Ngươi sanh
 
-                        let tuoi = namHienTai - value[7] + 1;//Năm sinh
+                        let tuoi = namHienTai - value[10] + 1;//Năm sinh
                         rowData.push(tuoi);
 
-                        let gioiTinh = value[6];//Giới tính
+                        let gioiTinh = value[9];//Giới tính
                         if (gioiTinh === "Nam") {
                             rowData.push("X");
                             rowData.push("");
