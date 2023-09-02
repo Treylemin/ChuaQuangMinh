@@ -206,7 +206,7 @@ $(document).ready(function () {
         if (selectedValue === "Cần Đước") {
             dc2Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_2
             dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
-            //dc_new();
+            dc_new();
             dc2Select.style.display = "inline-block";
             dc3Select.style.display = "inline-block";
             dc.style.display = "none";
