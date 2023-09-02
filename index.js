@@ -1,4 +1,4 @@
-let AppsScriptLink = "https://script.google.com/macros/s/AKfycbyTd9k0CkH8C64rn4eV47wfjeKK0ztfYTqKTbzLdG7qvW_yJpsf_k3XbHSQECG_6pxtEw/exec";
+let AppsScriptLink = "https://script.google.com/macros/s/AKfycby7WaRARngfdT3l28RPUmMpddSrVEXlzSizlkIDaHda1U7JxA40qckIYChFWBAfh47lVw/exec";
 const namHienTai = 2023;
 function BtnAdd() {
     var v = $("#TRow").clone().appendTo("#TBody");
@@ -57,49 +57,6 @@ function hideLoadingOverlay() {
     $('#loadingOverlay').hide();
 }
 
-function Search(pNo = "") {
-    var no = $('#ma_so').val();
-    if (pNo != "") no = pNo;
-    showLoadingOverlay();
-    $.getJSON(AppsScriptLink + "?page=search&no=" + no,
-        function (data) {
-            hideLoadingOverlay();
-            if (data == "NOT FOUND") {
-                alert('Không tìm thấy...');
-            }
-            else {
-                //var record = data;
-                var record = data.record;
-
-                var StartRow = data.SR;
-                var RowCount = data.CNT;
-
-                $('#ThemMoi').val('N');
-                $('#StartRow').val(StartRow);
-                $('#RowCount').val(RowCount);
-                var i = 0;
-                $.each(record, function (key, value) {
-                    if (i == 0) {
-                        document.getElementsByName("ma_so")[0].value = value[0];
-                        document.getElementsByName("dai_dien")[0].value = value[1];
-                        document.getElementsByName("dia_chi")[0].value = value[2];
-                        document.getElementsByName("so_dien_thoai")[0].value = value[3];
-                    }
-                    else {
-                        BtnAdd();
-                        document.getElementsByName("ho_va_ten")[i].value = value[5];
-                        document.getElementsByName("gioi_tinh")[i].value = value[6];
-                        document.getElementsByName("tuoi")[i].value = namHienTai - value[7] + 1;
-                        document.getElementsByName("nguoi_sanh")[i].value = value[8];
-                    }
-                    i = i + 1;
-                });
-            }
-        });
-    $('#exampleModal').modal('hide');
-    $("#createNewButton, #printButton").show();
-}
-
 $(document).ready(function () {
     //BtnAdd();
     const urlParams = new URLSearchParams(window.location.search);
@@ -113,11 +70,11 @@ $(document).ready(function () {
     var dc1Data = ["Cần Đước", "Cần Giuộc", "Bình Chánh", "TP.HCM", "Tiền Giang", "Khác"];
     var dc2Data = {
         "Cần Đước": ["TT.Cần Đước", "Xã Tân Lân", "Xã Tân Ân", "Xã Tân Chánh", "Xã Mỹ Lệ", "Xã Phước Tuy", "Xã Phước Đông", "Xã Phước Vân", "Xã Tân Trạch", "Xã Long Hựu Đông", "Xã Long Hựu Tây", "Xã Long Sơn", "Xã Long Cang", "Xã Long Hòa", "Xã Long Định", "Xã Long Khê", "Xã Long Trạch"],
-        "Cần Giuộc": [],
-        "Bình Chánh": [],
-        "Tiền Giang": [],
-        "TP.HCM": [], // Không có tùy chọn cho TPHCM
-        "Khác": []
+        "Cần Giuộc": ["none"],
+        "Bình Chánh": ["none"],
+        "Tiền Giang": ["none"],
+        "TP.HCM": ["none"], // Không có tùy chọn cho TPHCM
+        "Khác": ["none"]
     };
     var dc3Data = {
         "TT.Cần Đước": ["Khu 1B", "Khu 1A", "Khu 1C", "Khu 2", "Khu 3", "Khu 4", "Khu 5", "Khu 6", "Khu 7A", "Khu 7B", "Khu 8"],
@@ -127,16 +84,17 @@ $(document).ready(function () {
         "Xã Phước Đông": ["Khác", "Ấp 1", "Ấp 2", "Ấp 3", "Ấp 4", "Ấp 5", "Ấp 6", "Ấp 7"],
         "Xã Tân Chánh": ["Khác", "Ấp Đình", " Ấp Lăng", " Ấp Đông Nhất", "Ấp Đông Nhì", "Ấp Đông Trung", "Ấp Hoà Quới", "Ấp Bà Nghĩa"],
         "Xã Mỹ Lệ": ["Khác", "Ấp Rạch Đào", "Ấp Cầu Chùa", "Ấp Mỹ Tây", "Ấp Vạn Phước", "Ấp Cầu Làng", "Ấp Cầu Tam Binh", "Ấp Long Mỹ", "Ấp Tân Mỹ", "Ấp Cầu Nhỏ", "Ấp Chợ Trạm", "Ấp Chợ Mỹ"],
-        "Xã Phước Vân": [],
-        "Xã Tân Trạch": [],
-        "Xã Long Hựu Đông": [],
-        "Xã Long Hựu Tây": [],
-        "Xã Long Sơn": [],
-        "Xã Long Cang": [],
-        "Xã Long Hòa": [],
-        "Xã Long Định": [],
-        "Xã Long Khê": [],
-        "Xã Long Trạch": [],
+        "Xã Phước Vân": ["none"],
+        "Xã Tân Trạch": ["none"],
+        "Xã Long Hựu Đông": ["none"],
+        "Xã Long Hựu Tây": ["none"],
+        "Xã Long Sơn": ["none"],
+        "Xã Long Cang": ["none"],
+        "Xã Long Hòa": ["none"],
+        "Xã Long Định": ["none"],
+        "Xã Long Khê": ["none"],
+        "Xã Long Trạch": ["none"],
+        "none": ["none"],
     };
 
 
@@ -144,7 +102,24 @@ $(document).ready(function () {
     var dc1Select = document.getElementById("dc_1");
     var dc2Select = document.getElementById("dc_2");
     var dc3Select = document.getElementById("dc_3");
-    var dc = document.getElementById("dia_chi");
+    var dc = document.getElementById("div_dia_chi");
+
+    function dia_chi_day_du() {
+        let dia_chi_day_du = "";
+        if (dc3Select.value !== "none" && dc3Select.value !== "Khác") {
+            dia_chi_day_du = dc3Select.value + ", " + dc2Select.value + ", " + dc1Select.value;
+            let diaChiInput = document.querySelector('input[name="dia_chi"]');
+            diaChiInput.value = dia_chi_day_du;
+        } else if (dc2Select.value !== "none" && dc2Select.value !== "Khác") {
+            dia_chi_day_du = dc2Select.value + ", " + dc1Select.value;
+            let diaChiInput = document.querySelector('input[name="dia_chi"]');
+            diaChiInput.value = dia_chi_day_du;
+        } else if (dc1Select.value !== "none" && dc1Select.value !== "Khác") {
+            dia_chi_day_du = dc1Select.value;
+            let diaChiInput = document.querySelector('input[name="dia_chi"]');
+            diaChiInput.value = dia_chi_day_du;
+        }
+    }
 
     dc2Select.style.display = "none";
     dc3Select.style.display = "none";
@@ -175,7 +150,45 @@ $(document).ready(function () {
         dc3Select.style.display = "inline-block";
     }
 
-    dc_new();
+    function dc_update(dc_1, dc_2, dc_3) {
+        dc1Select.value = dc_1;
+        if (dc_1 === "Cần Đước") {
+            let selectedValue = dc_1;
+            for (let i = 0; i < dc2Data[selectedValue].length; i++) {
+                let option = document.createElement("option");
+                option.text = dc2Data[selectedValue][i];
+                option.value = dc2Data[selectedValue][i];
+                dc2Select.appendChild(option);
+            }
+            dc2Select.value = dc_2;
+            selectedValue = dc_2;
+            for (let i = 0; i < dc3Data[selectedValue].length; i++) {
+                let option = document.createElement("option");
+                option.text = dc3Data[selectedValue][i];
+                option.value = dc3Data[selectedValue][i];
+                dc3Select.appendChild(option);
+            }
+            dc2Select.style.display = "inline-block";
+            dc3Select.value = dc_3;
+            if (dc_3 === "none") {
+                dc3Select.style.display = "none";
+            } else {
+                dc3Select.style.display = "inline-block";
+            }
+        } else if (dc_1 === "Khác") {
+            dc2Select.style.display = "none";
+            dc3Select.style.display = "none";
+            dc.style.display = "inline-block"
+        } else {
+            dc2Select.style.display = "none";
+            dc3Select.style.display = "none";
+        }
+
+    }
+
+    if (!maSo) {
+        dc_new();
+    }
 
     // Lắng nghe sự kiện thay đổi của dc_1
     dc1Select.addEventListener("change", function () {
@@ -193,7 +206,7 @@ $(document).ready(function () {
         if (selectedValue === "Cần Đước") {
             dc2Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_2
             dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
-            dc_new();
+            //dc_new();
             dc2Select.style.display = "inline-block";
             dc3Select.style.display = "inline-block";
             dc.style.display = "none";
@@ -201,12 +214,31 @@ $(document).ready(function () {
             dc2Select.style.display = "none";
             dc3Select.style.display = "none";
             dc.style.display = "inline-block";
+            let selectedValue = dc2Select.value;
+            dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
+
+            // Tạo tùy chọn cho dc_3 dựa trên giá trị dc2Data
+            for (let i = 0; i < dc3Data[selectedValue].length; i++) {
+                let option = document.createElement("option");
+                option.text = dc3Data[selectedValue][i];
+                option.value = dc3Data[selectedValue][i];
+                dc3Select.appendChild(option);
+            }
         } else {
             dc2Select.style.display = "none";
             dc3Select.style.display = "none";
             dc.style.display = "none";
-        }
+            let selectedValue = dc2Select.value;
+            dc3Select.innerHTML = ""; // Xóa tất cả các tùy chọn hiện có trong dc_3
 
+            // Tạo tùy chọn cho dc_3 dựa trên giá trị dc2Data
+            for (let i = 0; i < dc3Data[selectedValue].length; i++) {
+                let option = document.createElement("option");
+                option.text = dc3Data[selectedValue][i];
+                option.value = dc3Data[selectedValue][i];
+                dc3Select.appendChild(option);
+            }
+        }
     });
 
     // Lắng nghe sự kiện thay đổi của dc_2
@@ -221,15 +253,60 @@ $(document).ready(function () {
             option.value = dc3Data[selectedValue][i];
             dc3Select.appendChild(option);
         }
-        if (dc3Select.value === "") {
+        if (dc3Select.value === "none") {
             dc3Select.style.display = "none";
         } else {
             dc3Select.style.display = "inline-block";
         }
     });
 
+    function Search(pNo = "") {
+        var no = $('#ma_so').val();
+        if (pNo != "") no = pNo;
+        showLoadingOverlay();
+        $.getJSON(AppsScriptLink + "?page=search&no=" + no,
+            function (data) {
+                hideLoadingOverlay();
+                if (data == "NOT FOUND") {
+                    alert('Không tìm thấy...');
+                }
+                else {
+                    //var record = data;
+                    var record = data.record;
+
+                    var StartRow = data.SR;
+                    var RowCount = data.CNT;
+
+                    $('#ThemMoi').val('N');
+                    $('#StartRow').val(StartRow);
+                    $('#RowCount').val(RowCount);
+                    var i = 0;
+                    $.each(record, function (key, value) {
+                        if (i == 0) {
+                            document.getElementsByName("ma_so")[0].value = value[0];
+                            document.getElementsByName("dai_dien")[0].value = value[1];
+                            document.getElementsByName("dia_chi")[0].value = value[2];
+                            dc_update(value[3], value[4], value[5]);
+                            document.getElementsByName("so_dien_thoai")[0].value = value[6];
+                        }
+                        else {
+                            BtnAdd();
+                            document.getElementsByName("ho_va_ten")[i].value = value[8];
+                            document.getElementsByName("gioi_tinh")[i].value = value[9];
+                            document.getElementsByName("tuoi")[i].value = namHienTai - value[10] + 1;
+                            document.getElementsByName("nguoi_sanh")[i].value = value[11];
+                        }
+                        i = i + 1;
+                    });
+                }
+            });
+        $('#exampleModal').modal('hide');
+        $("#createNewButton, #printButton").show();
+    }
+
     $(".form-sao-han").submit(function (event) {
         event.preventDefault();
+        dia_chi_day_du();
         var formData = $(this).serialize();
 
         var submitButton = $("#submitButton");

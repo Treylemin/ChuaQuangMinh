@@ -7,13 +7,32 @@
     /* Màu xám nhẹ */
 }
 
-#dia_chi {
+#div_dia_chi {
     display: none;
 }
 
 #createNewButton,
 #printButton {
     display: none;
+}
+
+.dai_dien {
+    font-size: 18px;
+    /* Điều chỉnh kích thước font cho dai_dien */
+    font-weight: bold;
+    /* In đậm cho dai_dien */
+}
+
+/* Màu cho trạng thái "Chưa in" */
+.trang_thai.chua_in {
+    color: green;
+    /* Màu xanh lá cho "Chưa in" */
+}
+
+/* Màu cho trạng thái "Đã in" */
+.trang_thai.da_in {
+    color: red;
+    /* Màu đỏ cho "Đã in" */
 }
 
 .custom-td {
