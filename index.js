@@ -684,24 +684,24 @@ function generatePDF(listMaSo) {
             printButton.attr('disabled', false);
             spinner.addClass('d-none');
             hideLoadingOverlay();
-            // var pdfBlobUrl = doc.output('bloburl');
-            // window.open(pdfBlobUrl);
-
             var pdfBlobUrl = doc.output('bloburl');
-            var pdfViewer = document.getElementById('pdfViewer');
-            pdfViewer.src = pdfBlobUrl;
+            window.open(pdfBlobUrl);
 
-            pdfViewer.onload = function () {
-                var iframeWindow = pdfViewer.contentWindow;
-                var iframeDocument = iframeWindow.document;
+            // var pdfBlobUrl = doc.output('bloburl');
+            // var pdfViewer = document.getElementById('pdfViewer');
+            // pdfViewer.src = pdfBlobUrl;
 
-                // Đặt các tuỳ chọn in, ví dụ: in ngang, giấy A4
-                iframeDocument.body.style.transform = 'rotate(90deg)'; // In ngang
-                iframeDocument.body.style.width = '210mm'; // Giấy A4 - chiều rộng
+            // pdfViewer.onload = function () {
+            //     var iframeWindow = pdfViewer.contentWindow;
+            //     var iframeDocument = iframeWindow.document;
 
-                // Kích hoạt lệnh in
-                iframeWindow.print();
-            };
+            //     // Đặt các tuỳ chọn in, ví dụ: in ngang, giấy A4
+            //     iframeDocument.body.style.transform = 'rotate(90deg)'; // In ngang
+            //     iframeDocument.body.style.width = '210mm'; // Giấy A4 - chiều rộng
+
+            //     // Kích hoạt lệnh in
+            //     iframeWindow.print();
+            // };
             return;
         }
         var maSo = listMaSo[index];
