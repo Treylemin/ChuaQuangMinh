@@ -691,9 +691,16 @@ function generatePDF(listMaSo) {
             var pdfViewer = document.getElementById('pdfViewer');
             pdfViewer.src = pdfBlobUrl;
 
-            // Sau khi đặt src cho iframe, sử dụng JavaScript để kích hoạt lệnh in
             pdfViewer.onload = function () {
-                pdfViewer.contentWindow.print();
+                var iframeWindow = pdfViewer.contentWindow;
+                var iframeDocument = iframeWindow.document;
+
+                // Đặt các tuỳ chọn in, ví dụ: in ngang, giấy A4
+                iframeDocument.body.style.transform = 'rotate(90deg)'; // In ngang
+                iframeDocument.body.style.width = '210mm'; // Giấy A4 - chiều rộng
+
+                // Kích hoạt lệnh in
+                iframeWindow.print();
             };
             return;
         }
