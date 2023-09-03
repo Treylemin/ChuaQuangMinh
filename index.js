@@ -684,43 +684,69 @@ function generatePDF(listMaSo) {
             printButton.attr('disabled', false);
             spinner.addClass('d-none');
             hideLoadingOverlay();
+            var pdfData = doc.output('datauristring'); // Tạo URL dữ liệu
 
-            // Tạo blob từ dữ liệu PDF
-            var pdfBlob = doc.output('blob');
+            // Tạo phần tử overlay
+            var overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Màu nền overlay
+            overlay.style.zIndex = '9999'; // Đặt lớp overlay trên cùng
 
-            // Tạo một URL tạm thời cho blob
-            var blobURL = URL.createObjectURL(pdfBlob);
+            // Tạo phần tử wrapper cho iframe
+            var iframeWrapper = document.createElement('div');
+            iframeWrapper.style.position = 'absolute';
+            iframeWrapper.style.top = '50%';
+            iframeWrapper.style.left = '50%';
+            iframeWrapper.style.transform = 'translate(-50%, -50%)';
+            iframeWrapper.style.width = '80%';
+            iframeWrapper.style.height = '80%';
+            iframeWrapper.style.backgroundColor = 'white'; // Màu nền iframe
+            iframeWrapper.style.padding = '20px';
 
-            // Tạo cửa sổ mới để mở file PDF
-            var newWindow = window.open(blobURL, '_blank');
+            // Tạo iframe và đặt nội dung PDF
+            var pdfIframe = document.createElement('iframe');
+            pdfIframe.src = pdfData;
+            pdfIframe.style.width = '100%';
+            pdfIframe.style.height = '100%';
 
+            var closeButton = document.createElement('button');
+            closeButton.className = 'close-button'; // Tạo lớp CSS cho nút đóng
+            closeButton.textContent = 'Đóng'; // Văn bản cho nút đóng
+            closeButton.style.position = 'absolute';
+            closeButton.style.top = '1px'; // Đặt khoảng cách từ trên xuống
+            closeButton.style.right = '5px'; // Đặt khoảng cách từ phải qua
+            closeButton.style.fontSize = '13px'; // Đặt kích thước chữ
+            closeButton.style.cursor = 'pointer';
+            closeButton.style.border = 'none'; // Loại bỏ viền của nút
+            closeButton.style.backgroundColor = 'transparent'; // Tắt màu nền
+            closeButton.style.color = 'red'; // Tắt màu nền
 
-            // doc.autoPrint(); // Chuẩn bị cho lệnh in
-            // var printDialog = true; // Tùy chọn: true để mở hộp thoại in ngay lập tức
+            // Loại bỏ padding và margin mặc định của nút để tránh khoảng trống xung quanh văn bản
+            closeButton.style.padding = '0';
+            closeButton.style.margin = '0';
 
-            // if (printDialog) {
-            //     // Mở hộp thoại in
-            //     doc.output('dataurlnewwindow'); // Mở cửa sổ mới chứa dữ liệu in
-            // } else {
-            //     // In trực tiếp không mở hộp thoại in
-            //     doc.output('dataurl'); // Trả về dữ liệu in
-            // }
-
-            /*
-            //In nhanh trực tiếp
-            doc.autoTable(autoTableOptions);
-
-            // Lưu tài liệu PDF vào biến pdfData (chuỗi dữ liệu)
-            var pdfData = doc.output('dataurl');
-
-            // Sử dụng thư viện Print.js để in tài liệu PDF
-            printJS({
-                printable: pdfData,
-                type: 'pdf',
-                style: '@page { size: A4 landscape; margin: 0; }',
-                duplex: true // In 2 mặt
+            // Sự kiện click cho nút đóng
+            closeButton.addEventListener('click', function () {
+                // Xử lý sự kiện khi nhấn nút đóng overlay
+                document.body.removeChild(overlay);
             });
-            */
+
+            // Gắn nút đóng vào phần tử wrapper thay vì overlay
+            iframeWrapper.appendChild(closeButton);
+
+            // Gắn iframe vào wrapper và gắn wrapper vào overlay
+            iframeWrapper.appendChild(pdfIframe);
+
+            // Thêm phần tử wrapper vào overlay
+            overlay.appendChild(iframeWrapper);
+
+            // Thêm overlay vào trang web
+            document.body.appendChild(overlay);
+
             return;
         }
 

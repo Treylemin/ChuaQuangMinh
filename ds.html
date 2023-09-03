@@ -58,7 +58,7 @@
           <button class="btn btn-sm btn-success mb-1 print-selected"><i class="bi bi-printer"></i> In tất cả đã
             chọn</button>
         </div>
-        <div class="col-12">
+        <div class="col-12 d-none">
           <div class="row">
             <div class="col-xl-2 col-lg-4 col-md-4 col-6">
               <div class="input-group mb-3">
@@ -156,15 +156,6 @@
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="index.js"></script>
   <script>
-    // // Lấy đối tượng td cần thêm sự kiện click
-    // var td = document.querySelector('.clickable');
-
-    // // Thêm sự kiện click vào td
-    // td.addEventListener('click', function () {
-    //   // Thực hiện hành động khi td được click
-    //   alert('Bạn đã click vào TD này.');
-    // });
-
     $(document).ready(function () {
       $(".print-selected").hide();
       showLoadingOverlay();
