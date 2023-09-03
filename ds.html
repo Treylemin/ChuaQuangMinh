@@ -150,6 +150,7 @@
     crossorigin="anonymous"></script>
 
   <!-- Other scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.15/jspdf.plugin.autotable.min.js"></script>
   <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
@@ -157,6 +158,14 @@
   <script src="index.js"></script>
   <script>
     $(document).ready(function () {
+      // // Lấy đối tượng td cần thêm sự kiện click
+      // var td = document.querySelector('.clickable');
+
+      // // Thêm sự kiện click vào td
+      // td.addEventListener('click', function () {
+      //   // Thực hiện hành động khi td được click
+      //   alert('Bạn đã click vào TD này.');
+      // });
       $(".print-selected").hide();
       showLoadingOverlay();
       $.getJSON(AppsScriptLink, function (data) {

@@ -687,17 +687,23 @@ function generatePDF(listMaSo) {
             var pdfBlob = doc.output('blob');
             var blobURL = URL.createObjectURL(pdfBlob);
 
-            // Tạo một thẻ <a> để tạo một liên kết mới với URL PDF
-            var anchor = document.createElement('a');
-            anchor.href = blobURL;
-            anchor.target = '_blank'; // Mở trang mới trong tab hoặc cửa sổ
+            // Mở tệp PDF trong một tab mới
+            window.open(blobURL);
 
-            // Kích hoạt sự kiện click trên thẻ <a> để chuyển đổi tab hiện tại sang trang PDF
-            anchor.click();
+            // doc.autoPrint(); // Chuẩn bị cho lệnh in
+            // var printDialog = true; // Tùy chọn: true để mở hộp thoại in ngay lập tức
+
+            // if (printDialog) {
+            //     // Mở hộp thoại in
+            //     doc.output('dataurlnewwindow'); // Mở cửa sổ mới chứa dữ liệu in
+            // } else {
+            //     // In trực tiếp không mở hộp thoại in
+            //     doc.output('dataurl'); // Trả về dữ liệu in
+            // }
+
 
             return;
         }
-
         var maSo = listMaSo[index];
 
         $.getJSON(AppsScriptLink + "?page=search&no=" + maSo, function (dataAPI) {
