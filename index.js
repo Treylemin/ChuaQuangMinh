@@ -713,6 +713,9 @@ function generatePDF(listMaSo) {
             pdfIframe.style.width = '100%';
             pdfIframe.style.height = '100%';
 
+            // Tắt thanh cuộn trong iframe
+            pdfIframe.style.overflow = 'hidden';
+
             var closeButton = document.createElement('button');
             closeButton.className = 'close-button'; // Tạo lớp CSS cho nút đóng
             closeButton.textContent = 'Đóng'; // Văn bản cho nút đóng
