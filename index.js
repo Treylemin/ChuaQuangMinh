@@ -712,9 +712,7 @@ function generatePDF(listMaSo) {
             pdfIframe.src = pdfData;
             pdfIframe.style.width = '100%';
             pdfIframe.style.height = '100%';
-
-            // Tắt thanh cuộn trong iframe
-            pdfIframe.style.overflow = 'hidden';
+            pdfIframe.style.maxWidth = '100%'; // Đặt chiều rộng tối đa để tự động fit vào màn hình
 
             var closeButton = document.createElement('button');
             closeButton.className = 'close-button'; // Tạo lớp CSS cho nút đóng
